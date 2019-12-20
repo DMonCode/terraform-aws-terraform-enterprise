@@ -24,6 +24,12 @@ variable "vpc_id" {
 
 ### =================================================================== OPTIONAL
 
+variable "tags" {
+  type = "map"
+  description = "Common tags that are added to resouces"
+  default = {}
+}
+
 variable "prefix" {
   type        = "string"
   description = "Name prefix for resource names and tags"

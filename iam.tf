@@ -15,6 +15,13 @@ resource "aws_iam_role" "ptfe" {
   ]
 }
 EOF
+
+  tags = "${merge(
+    var.tags,
+    map(
+      "Name", "ptfe-${module.common.install_id}",
+    )
+  )}"
 }
 
 resource "aws_iam_instance_profile" "ptfe" {

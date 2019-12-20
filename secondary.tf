@@ -54,4 +54,11 @@ resource "aws_autoscaling_group" "secondary" {
     value               = "${module.common.install_id}"
     propagate_at_launch = true
   }
+
+  tags = "${merge(
+    var.tags,
+    map(
+      "Name", "${var.prefix}-lc-${aws_launch_configuration.secondary.name}"
+    )
+  )}"
 }

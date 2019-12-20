@@ -20,9 +20,12 @@ resource "aws_security_group" "intra_vpc_and_egress" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "${var.prefix}"
-  }
+  tags = "${merge(
+    var.tags,
+    map(
+      "Name", "${var.prefix}",
+    )
+  )}"
 }
 
 # Allow whitelisted ranges to access our services.
@@ -81,4 +84,11 @@ resource "aws_security_group" "allow_ptfe" {
 
     cidr_blocks = ["0.0.0.0/0"]
   }
+  
+  tags = "${merge(
+    var.tags,
+    map(
+      "Name", "ptfe ingress ${random_string.install_id.result}"
+    )
+  )}"
 }

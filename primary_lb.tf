@@ -34,7 +34,11 @@ resource "aws_elb" "cluster_api" {
     timeout             = 5
   }
 
-  tags = {
-    Name = "${var.prefix}"
-  }
+  tags = "${merge(
+    var.tags,
+    map(
+      "Name", "${var.prefix}",
+      "InstallationId", "${module.common.install_id}"
+    )
+  )}"
 }

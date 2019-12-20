@@ -1,3 +1,7 @@
+locals {
+  namespace = "${var.prefix}tfe-${var.install_id}"
+}
+
 ### =================================================================== REQUIRED
 
 variable "vpc_id" {
@@ -11,6 +15,12 @@ variable "install_id" {
 }
 
 ### =================================================================== OPTIONAL
+
+variable "tags" {
+  type = "map"
+  description = "Common tags that are added to resouces"
+  default = {}
+}
 
 variable "prefix" {
   type        = "string"

@@ -1,6 +1,11 @@
 resource "aws_iam_user" "tfe_objects" {
   name          = "${var.prefix}tfe-object-store-${var.install_id}"
   force_destroy = true
+
+  tags = "${merge(
+    var.tags,
+    map("Name", "${var.prefix}tfe-object-store-${var.install_id}")
+  )}"
 }
 
 ## credentials to be passed to archivist

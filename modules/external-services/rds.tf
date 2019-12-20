@@ -27,6 +27,11 @@ resource "aws_security_group" "db_access" {
 
     cidr_blocks = ["${data.aws_subnet.selected.*.cidr_block}"]
   }
+
+  tags = "${merge(
+    var.tags,
+    map("Name", "DB Access for ${local.namespace}")
+  )}"
 }
 
 resource "random_string" "database_password" {
@@ -35,12 +40,13 @@ resource "random_string" "database_password" {
 }
 
 resource "aws_db_subnet_group" "tfe" {
-  name_prefix = "${var.prefix}tfe-${var.install_id}"
+  name_prefix = "${local.namespace}"
   subnet_ids  = ["${data.aws_subnet.selected.*.id}"]
 
-  tags = {
-    Name = "tfe subnet group"
-  }
+  tags = "${merge(
+    var.tags,
+    map("Name", "${local.namespace} subnet group")
+  )}"
 }
 
 resource "aws_rds_cluster" "tfe" {
@@ -53,7 +59,12 @@ resource "aws_rds_cluster" "tfe" {
   backup_retention_period   = 5
   preferred_backup_window   = "07:00-09:00"
   vpc_security_group_ids    = ["${aws_security_group.db_access.id}"]
-  final_snapshot_identifier = "${var.prefix}tfe-${var.install_id}-final"
+  final_snapshot_identifier = "${local.namespace}-final"
+
+  tags = "${merge(
+    var.tags,
+    map("Name", "${local.namespace} RDS Cluster Group"
+  )}"
 }
 
 resource "aws_rds_cluster_instance" "tfe1" {
@@ -63,4 +74,9 @@ resource "aws_rds_cluster_instance" "tfe1" {
   engine               = "aurora-postgresql"
   instance_class       = "db.r5.large"
   db_subnet_group_name = "${aws_db_subnet_group.tfe.name}"
+
+  tags = "${merge(
+    var.tags,
+    map("Name", "${local.namespace} Cluster Instance")
+  )}"
 }

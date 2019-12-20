@@ -15,6 +15,11 @@ _example architecture_
 
 Please contact your Technical Account Manager for more information, and support for any issues you have.
 
+This configuration assumes a tightly controlled internal network. 
+Either there is a Public Load Balancer or Internal Load Balancer.
+All compute nodes are in the internal network. 
+
+
 ## Examples
 
 Please see the [examples directory](https://github.com/hashicorp/terraform-aws-terraform-enterprise/tree/master/examples/) for more extensive examples.

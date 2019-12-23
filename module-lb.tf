@@ -7,9 +7,11 @@ module "lb" {
   prefix = "${var.prefix}"
   domain = "${var.domain}"
 
-  public_subnets              = "${module.common.public_subnets}"
-  public_subnets_cidr_blocks  = "${module.common.public_subnets_cidr_blocks}"
-  private_subnets_cidr_blocks = "${module.common.private_subnets_cidr_blocks}"
+  subnet_endpoints             = "${module.common.subnet_endpoints}"
+  subnet_compute               = "${module.common.subnet_compute}"
+  subnet_endpoints_cidr_blocks = "${module.common.subnet_endpoints_cidr_blocks}"
+  subnet_compute_cidr_blocks   = "${module.common.subnet_compute_cidr_blocks}"
+  internal_endpoint            = "${var.internal_endpoint}"
 
   hostname       = "${var.hostname}"
   update_route53 = "${var.update_route53}"

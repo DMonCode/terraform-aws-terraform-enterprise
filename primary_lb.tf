@@ -1,7 +1,7 @@
 resource "aws_elb" "cluster_api" {
   # Lowered to be sure it's compliant with https://github.com/kubernetes/apimachinery/blob/461753078381c979582f217a28eb759ebee5295d/pkg/util/validation/validation.go#L132
   name_prefix = "${lower(var.prefix)}"
-  subnets     = ["${module.common.private_subnets}"]
+  subnets     = ["${module.common.subnet_compute}"]
   internal    = true
 
   cross_zone_load_balancing = true

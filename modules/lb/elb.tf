@@ -1,5 +1,5 @@
 resource "aws_lb" "ptfe" {
-  subnets            = ["${var.subnets_endpoints}"]
+  subnets            = ["${var.subnet_endpoints}"]
   load_balancer_type = "application"
 
   security_groups = [

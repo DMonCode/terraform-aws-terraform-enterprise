@@ -8,7 +8,7 @@ resource "aws_instance" "primary" {
   ami           = "${var.ami != "" ? var.ami : local.distro_ami}"
   instance_type = "${var.primary_instance_type}"
 
-  subnet_id = "${element(module.common.public_subnets, count.index)}"
+  subnet_id = "${element(module.common.subnet_compute, count.index)}"
 
   vpc_security_group_ids = [
     ## ingress from lb

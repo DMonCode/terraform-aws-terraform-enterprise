@@ -34,31 +34,19 @@ resource "aws_autoscaling_group" "secondary" {
   desired_capacity     = "${var.secondary_count}"
   min_size             = "${var.secondary_count}"
   max_size             = "${var.secondary_count}"
-  vpc_zone_identifier  = ["${module.common.private_subnets}"]
+  vpc_zone_identifier  = ["${module.common.subnet_compute}"]
   target_group_arns    = ["${module.lb.https_group}"]
 
-  tag {
-    key                 = "Name"
-    value               = "${var.prefix}-${module.common.install_id}:secondary"
-    propagate_at_launch = true
-  }
-
-  tag {
-    key                 = "Hostname"
-    value               = "${module.lb.endpoint}"
-    propagate_at_launch = true
-  }
-
-  tag {
-    key                 = "InstallationId"
-    value               = "${module.common.install_id}"
-    propagate_at_launch = true
-  }
-
-  tags = "${merge(
-    var.tags,
-    map(
-      "Name", "${var.prefix}-lc-${aws_launch_configuration.secondary.name}"
-    )
-  )}"
+  #   This tag is a list of maps. autoscaling resource behaves different
+  # than other resources.
+  tags = [
+    "${list(
+      var.tags,
+      map(
+        "Name", "${var.prefix}-lc-${aws_launch_configuration.secondary.name}",
+        "InstallationId", "${module.common.install_id}",
+        "Hostname", "${module.lb.endpoint}"
+      )
+    )}"
+  ]
 }

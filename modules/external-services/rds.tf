@@ -2,18 +2,16 @@ locals {
   postgres_port = "5432"
 }
 
-data "aws_vpc" "selected" {
-  id = "${var.vpc_id}"
-}
-
 data "aws_subnet" "rds" {
+  count  = "${length(var.rds_subnet_ids)}"
   vpc_id = "${var.vpc_id}"
-  ids    = "${var.rds_subnet_ids}"
+  id     = "${var.rds_subnet_ids[count.index]}"
 }
 
 data "aws_subnet" "access" {
+  count  = "${length(var.access_subnet_ids)}"
   vpc_id = "${var.vpc_id}"
-  ids   = "${var.access_subnet_ids}"
+  id     = "${var.access_subnet_ids[count.index]}"
 }
 
 resource "aws_security_group" "db_access" {
@@ -27,7 +25,7 @@ resource "aws_security_group" "db_access" {
 
     cidr_blocks = [
       "${data.aws_subnet.rds.*.cidr_block}",
-      "${data.aws_subnet_.access.*.cidr_block}"
+      "${data.aws_subnet.access.*.cidr_block}",
     ]
   }
 
@@ -66,7 +64,7 @@ resource "aws_rds_cluster" "tfe" {
 
   tags = "${merge(
     var.tags,
-    map("Name", "${local.namespace} RDS Cluster Group"
+    map("Name", "${local.namespace} RDS Cluster Group")
   )}"
 }
 

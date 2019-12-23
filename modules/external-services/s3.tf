@@ -3,12 +3,12 @@ locals {
 }
 
 resource "aws_s3_bucket" "tfe_objects" {
-  bucket = "${locals.s3_name}"
+  bucket = "${local.s3_name}"
   acl    = "private"
 
   tags = "${merge(
     var.tags,
-    "Name", "${locals.s3_name}"
+    map("Name", "${local.s3_name}")
   )}"
 }
 

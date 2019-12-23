@@ -26,20 +26,20 @@ output "ssh_key_name" {
   value = "${local.key_name}"
 }
 
-output "private_subnets" {
-  value = ["${matchkeys(data.aws_subnet.selected.*.id, data.aws_subnet.selected.*.map_public_ip_on_launch, list("false"))}"]
+output "subnet_endpoints" {
+  value = ["${data.aws_subnet.endpoints.*.id}"]
 }
 
-output "public_subnets" {
-  value = ["${matchkeys(data.aws_subnet.selected.*.id, data.aws_subnet.selected.*.map_public_ip_on_launch, list("true"))}"]
+output "subnet_compute" {
+  value = ["${data.aws_subnet.compute.*.id}"]
 }
 
-output "private_subnets_cidr_blocks" {
-  value = ["${matchkeys(data.aws_subnet.selected.*.cidr_block, data.aws_subnet.selected.*.map_public_ip_on_launch, list("false"))}"]
+output "subnet_endpoints_cidr_blocks" {
+  value = ["${data.aws_subnet.endpoints.*.cidr_block}"]
 }
 
-output "public_subnets_cidr_blocks" {
-  value = ["${matchkeys(data.aws_subnet.selected.*.cidr_block, data.aws_subnet.selected.*.map_public_ip_on_launch, list("true"))}"]
+output "subnet_compute_cidr_blocks" {
+  value = ["${data.aws_subnet.compute.*.cidr_block}"]
 }
 
 output "intra_vpc_and_egress_sg_id" {

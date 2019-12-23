@@ -12,28 +12,25 @@ variable "prefix" {
 
 ### =================================================================== OPTIONAL
 
-variable "subnet_tags" {
-  type        = "map"
-  description = "tags to use to match subnets to use"
-  default     = {}
-}
-
-variable "subnets_compute" {
-  type = "list"
+variable "subnet_compute" {
+  type        = "list"
   description = "Subnets used by compute nodes"
-  default = {}
 }
 
-variable "subnets_endpoints" {
-  type = "list"
+variable "subnet_endpoints" {
+  type        = "list"
   description = "Subnets used by endpoints"
-  default = {}
 }
 
 variable "allow_list" {
   type        = "list"
   description = "list of CIDRs we allow to access the infrastructure"
   default     = []
+}
+
+variable "tags" {
+  type        = "map"
+  description = "Common tags"
 }
 
 ### ======================================================================= MISC

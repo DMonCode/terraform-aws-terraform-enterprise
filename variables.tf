@@ -26,9 +26,9 @@ variable "vpc_id" {
 ### =================================================================== OPTIONAL
 
 variable "tags" {
-  type = "map"
+  type        = "map"
   description = "Common tags that are added to resouces"
-  default = {}
+  default     = {}
 }
 
 variable "prefix" {
@@ -151,20 +151,20 @@ variable "startup_script" {
   default     = ""
 }
 
-variable "subnet_tags" {
-  type        = "map"
-  description = "tags to use to match subnets to use"
-  default     = {}
-}
-
-variable "subnet_endpoint" {
-  type = "list"
+variable "subnet_endpoints" {
+  type        = "list"
   description = "Subnets where the service load balancer endpoint will reside"
 }
 
 variable "subnet_compute" {
-  type = "list"
+  type        = "list"
   description = "Subnets where compute services and database will reside "
+}
+
+variable "internal_endpoint" {
+  type        = "string"
+  description = "Is endpoint internal?"
+  default     = false
 }
 
 variable "update_route53" {

@@ -2,12 +2,12 @@ data "aws_vpc" "selected" {
   id = "${var.vpc_id}"
 }
 
-data "aws_subnet_ids" "selected" {
-  vpc_id = "${var.vpc_id}"
-  tags   = "${var.subnet_tags}"
+data "aws_subnet" "compute" {
+  count = "${length(var.subnet_compute)}"
+  id    = "${var.subnet_compute[count.index]}"
 }
 
-data "aws_subnet" "selected" {
-  count = "${length(data.aws_subnet_ids.selected.ids)}"
-  id    = "${data.aws_subnet_ids.selected.ids[count.index]}"
+data "aws_subnet" "endpoints" {
+  count = "${length(var.subnet_endpoints)}"
+  id    = "${var.subnet_endpoints[count.index]}"
 }

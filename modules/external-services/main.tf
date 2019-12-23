@@ -17,9 +17,9 @@ variable "install_id" {
 ### =================================================================== OPTIONAL
 
 variable "tags" {
-  type = "map"
+  type        = "map"
   description = "Common tags that are added to resouces"
-  default = {}
+  default     = {}
 }
 
 variable "prefix" {
@@ -29,12 +29,12 @@ variable "prefix" {
 }
 
 variable "rds_subnet_ids" {
-  type = "list"
+  type        = "list"
   description = "List of subnet IDs that RDS will deploy to."
 }
 
 variable "access_subnet_ids" {
-  type = "list"
+  type        = "list"
   description = "List of subnet IDs that can access RDS"
 }
 

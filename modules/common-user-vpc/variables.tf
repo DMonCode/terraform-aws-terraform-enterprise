@@ -18,6 +18,18 @@ variable "subnet_tags" {
   default     = {}
 }
 
+variable "subnets_compute" {
+  type = "list"
+  description = "Subnets used by compute nodes"
+  default = {}
+}
+
+variable "subnets_endpoints" {
+  type = "list"
+  description = "Subnets used by endpoints"
+  default = {}
+}
+
 variable "allow_list" {
   type        = "list"
   description = "list of CIDRs we allow to access the infrastructure"

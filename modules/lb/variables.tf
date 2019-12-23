@@ -10,19 +10,24 @@ variable "install_id" {
   description = "the ID of the install"
 }
 
-variable "public_subnets" {
-  type        = "list"
-  description = "list of public subnets"
+variable "subnets_compute" {
+  type = "list"
+  description = "list of compute subnet ids"
 }
 
-variable "public_subnets_cidr_blocks" {
-  type        = "list"
-  description = "list of CIDRs for the public subnets"
+variable "subnets_endpoints" {
+  type = "list"
+  description = "List of service endpoint subnet ids"
 }
 
-variable "private_subnets_cidr_blocks" {
+variable "subnets_compute_cidr_blocks" {
   type        = "list"
-  description = "list of CIDRs for the private subnets"
+  description = "list of CIDRs for compute subnets"
+}
+
+variable "subnets_endpoints_cidr_blocks" {
+  type        = "list"
+  description = "list of CIDRs for the endpoint subnets"
 }
 
 ## `*.${var.domain}` in ACM, `${var.domain}` in route53

@@ -157,6 +157,16 @@ variable "subnet_tags" {
   default     = {}
 }
 
+variable "subnet_endpoint" {
+  type = "list"
+  description = "Subnets where the service load balancer endpoint will reside"
+}
+
+variable "subnet_compute" {
+  type = "list"
+  description = "Subnets where compute services and database will reside "
+}
+
 variable "update_route53" {
   type        = "string"
   description = "whether or not to automatically update route53 records for the cluster"

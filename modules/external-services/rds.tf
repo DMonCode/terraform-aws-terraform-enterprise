@@ -6,14 +6,14 @@ data "aws_vpc" "selected" {
   id = "${var.vpc_id}"
 }
 
-data "aws_subnet_ids" "rds" {
+data "aws_subnet" "rds" {
   vpc_id = "${var.vpc_id}"
-  tags   = "${var.rds_subnet_tags}"
+  ids    = "${var.rds_subnet_ids}"
 }
 
-data "aws_subnet" "selected" {
-  count = "${length(data.aws_subnet_ids.rds.ids)}"
-  id    = "${data.aws_subnet_ids.rds.ids[count.index]}"
+data "aws_subnet" "access" {
+  vpc_id = "${var.vpc_id}"
+  ids   = "${var.access_subnet_ids}"
 }
 
 resource "aws_security_group" "db_access" {
@@ -25,7 +25,10 @@ resource "aws_security_group" "db_access" {
     from_port = "${local.postgres_port}"
     to_port   = "${local.postgres_port}"
 
-    cidr_blocks = ["${data.aws_subnet.selected.*.cidr_block}"]
+    cidr_blocks = [
+      "${data.aws_subnet.rds.*.cidr_block}",
+      "${data.aws_subnet_.access.*.cidr_block}"
+    ]
   }
 
   tags = "${merge(
@@ -41,7 +44,7 @@ resource "random_string" "database_password" {
 
 resource "aws_db_subnet_group" "tfe" {
   name_prefix = "${local.namespace}"
-  subnet_ids  = ["${data.aws_subnet.selected.*.id}"]
+  subnet_ids  = ["${data.aws_subnet.rds.*.id}"]
 
   tags = "${merge(
     var.tags,

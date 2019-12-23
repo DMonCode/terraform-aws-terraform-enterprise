@@ -28,10 +28,14 @@ variable "prefix" {
   default     = ""
 }
 
-variable "rds_subnet_tags" {
-  type        = "map"
-  description = "tags to use to match subnets to use"
-  default     = {}
+variable "rds_subnet_ids" {
+  type = "list"
+  description = "List of subnet IDs that RDS will deploy to."
+}
+
+variable "access_subnet_ids" {
+  type = "list"
+  description = "List of subnet IDs that can access RDS"
 }
 
 variable "database_name" {
